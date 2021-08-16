@@ -5,10 +5,10 @@ from ark.utils import generate_noid
 
 
 class Command(BaseCommand):
-    help = 'Mint ARKs in bulk'
+    help = "Mint ARKs in bulk"
 
     def add_arguments(self, parser):
-        parser.add_argument('ark_count', type=int)
+        parser.add_argument("ark_count", type=int)
         parser.add_argument("naan", type=int)
         parser.add_argument("shoulder", type=str)
 
@@ -19,7 +19,11 @@ class Command(BaseCommand):
         shoulder = options["shoulder"]
 
         Ark.objects.bulk_create(
-            Ark(ark=f"{naan_id}{shoulder}{generate_noid(9)}", naan=naan, shoulder=shoulder)
+            Ark(
+                ark=f"{naan_id}{shoulder}{generate_noid(20)}",
+                naan=naan,
+                shoulder=shoulder,
+            )
             for _ in range(ark_count)
         )
-        self.stdout.write(self.style.SUCCESS(f'Successfully minted {ark_count} ARKs'))
+        self.stdout.write(self.style.SUCCESS(f"Successfully minted {ark_count} ARKs"))

@@ -1,6 +1,14 @@
+appdirs==1.4.4
 asgiref==3.4.1
+black==21.7b0
+click==8.0.1
 Django==3.2.6
 Jinja2==3.0.1
 MarkupSafe==2.0.1
+mypy-extensions==0.4.3
+pathspec==0.9.0
+psycopg2-binary==2.9.1
 pytz==2021.1
+regex==2021.8.3
 sqlparse==0.4.1
+tomli==1.2.1

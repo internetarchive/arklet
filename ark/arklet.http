@@ -1,7 +1,7 @@
 ### Ark-Minting happy path
 POST http://127.0.0.1:8000/mint
 Content-Type: application/json
-Authorization: Bearer bcaf460b-2070-4fc6-9173-723ca321cdce
+Authorization: Bearer 0772fbc3-47f4-4eba-8ac8-e3d235e83397
 
 {
 	"naan": 13960,
