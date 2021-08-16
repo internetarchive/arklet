@@ -1,0 +1,37 @@
+### Ark-Minting happy path
+POST http://127.0.0.1:8000/mint
+Content-Type: application/json
+Authorization: Bearer bcaf460b-2070-4fc6-9173-723ca321cdce
+
+{
+	"naan": 13960,
+	"shoulder": "/t",
+	"url": "https://archive.org/details/random-avdempsey-memories",
+	"metadata": {},
+	"maintenance_commitment": {}
+}
+
+### Ark-minting bad authorization
+POST http://127.0.0.1:8000/mint
+Content-Type: application/json
+Authorization: Bearer DECAFBAD
+
+{
+"naan": 13960,
+"shoulder": "/t",
+"url": "https://archive.org/details/random-avdempsey-memories",
+"metadata": {},
+"maintenance_commitment": {}
+}
+
+### Ark-Updating happy path
+PUT http://127.0.0.1:8000/update
+Content-Type: application/json
+Authorization: Bearer bcaf460b-2070-4fc6-9173-723ca321cdce
+
+{
+  "ark": "ark:/13960/tqggqj8jf",
+  "url": "https://archive.org/details/random-avdempsey-memories",
+  "metadata": "here is some metadata",
+  "maintenance_commitment": {}
+}

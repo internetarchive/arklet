@@ -1,0 +1,6 @@
+asgiref==3.4.1
+Django==3.2.6
+Jinja2==3.0.1
+MarkupSafe==2.0.1
+pytz==2021.1
+sqlparse==0.4.1
