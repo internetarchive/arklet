@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+import yaml
+
+
+with open(os.environ.get("ARKLET_CONF", "/etc/arklet.yml")) as f:
+    conf = yaml.safe_load(f)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["ARKLET_DJANGO_SECRET_KEY"]
+SECRET_KEY = conf["ARKLET_DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = conf.get("ARKLET_DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "avdempsey-dev",
+]
 
 
 # Application definition
@@ -94,11 +102,11 @@ DATABASES = {
         # "ENGINE": "django.db.backends.sqlite3",
         # "NAME": BASE_DIR / "db.sqlite3",
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["ARKLET_POSTGRES_NAME"],
-        "HOST": os.environ["ARKLET_POSTGRES_HOST"],
-        "PORT": os.environ["ARKLET_POSTGRES_PORT"],
-        "USER": os.environ["ARKLET_POSTGRES_USER"],
-        "PASSWORD": os.environ["ARKLET_POSTGRES_PASSWORD"],
+        "NAME": conf.get("ARKLET_POSTGRES_NAME", "arklet"),
+        "HOST": conf.get("ARKLET_POSTGRES_HOST", "127.0.0.1"),
+        "PORT": conf.get("ARKLET_POSTGRES_PORT", "5432"),
+        "USER": conf.get("ARKLET_POSTGRES_USER", "arklet"),
+        "PASSWORD": conf.get("ARKLET_POSTGRES_PASSWORD", "arklet"),
     }
 }
 
