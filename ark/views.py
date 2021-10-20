@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ark.forms import MintArkForm, UpdateArkForm
 from ark.models import Naan, Ark
-from ark.utils import generate_noid, parse_ark
+from ark.utils import generate_noid, noid_check_digit, parse_ark
 
 
 logger = logging.getLogger(__name__)
@@ -29,9 +29,7 @@ def mint_ark(request):
 
     try:
         unsafe_mint_request = json.loads(request.body.decode("utf-8"))
-    except json.JSONDecodeError as e:
-        return HttpResponseBadRequest(e)
-    except TypeError as e:
+    except (json.JSONDecodeError, TypeError) as e:
         return HttpResponseBadRequest(e)
 
     # TODO: test input data with wrong structure
@@ -68,13 +66,15 @@ def mint_ark(request):
     ark, collisions = None, 0
     for _ in range(10):
         noid = generate_noid(8)
-        ark_string = f"{naan}{shoulder}{noid}"
+        base_ark_string = f"{naan}{shoulder}{noid}"
+        check_digit = noid_check_digit(base_ark_string)
+        ark_string = f"{base_ark_string}{check_digit}"
         try:
             ark = Ark.objects.create(
                 ark=ark_string,
                 naan=authorized_naan,
                 shoulder=shoulder,
-                assigned_name=noid,
+                assigned_name=f"{noid}{check_digit}",
                 url=url,
                 metadata=metadata,
                 commitment=commitment,
@@ -101,9 +101,7 @@ def update_ark(request):
 
     try:
         unsafe_update_request = json.loads(request.body.decode("utf-8"))
-    except json.JSONDecodeError as e:
-        return HttpResponseBadRequest(e)
-    except TypeError as e:
+    except (json.JSONDecodeError, TypeError) as e:
         return HttpResponseBadRequest(e)
 
     # TODO: test input data with wrong structure
