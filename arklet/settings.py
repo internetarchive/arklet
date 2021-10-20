@@ -107,6 +107,7 @@ DATABASES = {
         "PORT": conf.get("ARKLET_POSTGRES_PORT", "5432"),
         "USER": conf.get("ARKLET_POSTGRES_USER", "arklet"),
         "PASSWORD": conf.get("ARKLET_POSTGRES_PASSWORD", "arklet"),
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     }
 }
 
