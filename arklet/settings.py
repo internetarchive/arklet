@@ -32,9 +32,7 @@ SECRET_KEY = conf["ARKLET_DJANGO_SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = conf.get("ARKLET_DEBUG", False)
 
-ALLOWED_HOSTS = [
-    "avdempsey-dev.us.archive.org",
-]
+ALLOWED_HOSTS = ["avdempsey-dev.us.archive.org", "wbgrp-svc302.us.archive.org"]
 
 
 # Application definition
