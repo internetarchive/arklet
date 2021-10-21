@@ -2,6 +2,7 @@ db.sqlite3
 venv
 .idea/
 .DS_Store
+prod.http
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
