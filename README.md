@@ -4,7 +4,7 @@
 See https://arks.org/
 
 ## What is Arklet?
-Arklet is Python Django application for minting, updating, and resolving ARKs. It is intended to follow best practices set out by https://arks.org/.
+Arklet is a Python Django application for minting, updating, and resolving ARKs. It is intended to follow best practices set out by https://arks.org/.
 
 ## Running Postgres Locally
 
