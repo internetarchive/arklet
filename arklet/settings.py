@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 import yaml
 
 
@@ -27,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = conf["ARKLET_DJANGO_SECRET_KEY"]
+SECRET_KEY = conf["ARKLET_DJANGO_SECRET_KEY"]  # Intentionally no default value
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = conf.get("ARKLET_DEBUG", False)
@@ -155,3 +157,12 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SENTRY_DSN = conf.get("ARKLET_SENTRY_DSN", "")
+SENTRY_SAMPLE_RATE = 1 / int(conf.get("ARKLET_SENTRY_TRANSACTIONS_PER_TRACE", 1))
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=SENTRY_SAMPLE_RATE,
+    send_default_pii=True,
+)
