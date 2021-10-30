@@ -157,6 +157,10 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+STATIC_ROOT = conf.get("ARKLET_STATIC_ROOT")
+
+MEDIA_ROOT = conf.get("ARKLET_MEDIA_ROOT")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
