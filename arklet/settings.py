@@ -35,9 +35,7 @@ SECRET_KEY = conf["ARKLET_DJANGO_SECRET_KEY"]  # Intentionally no default value
 DEBUG = conf.get("ARKLET_DEBUG", False)
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "avdempsey-dev.us.archive.org",
-    "wbgrp-svc302.us.archive.org",
+    conf.get("ARKLET_HOST", "127.0.0.1"),
 ]
 
 
