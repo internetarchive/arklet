@@ -36,6 +36,7 @@ DEBUG = conf.get("ARKLET_DEBUG", False)
 
 ALLOWED_HOSTS = [
     conf.get("ARKLET_HOST", "127.0.0.1"),
+    "wbgrp-svc302.us.archive.org",
 ]
 
 
