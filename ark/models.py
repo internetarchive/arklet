@@ -12,7 +12,7 @@ class Naan(models.Model):
     url = models.URLField()
 
     def __str__(self):
-        return f"NAAN - {self.name} - {self.naan}"
+        return f"{self.name} - {self.naan}"
 
 
 class User(AbstractUser):
@@ -38,7 +38,7 @@ class Shoulder(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f"Shoulder-{self.naan.naan}{self.shoulder}"
+        return f"{self.naan.naan}{self.shoulder}"
 
 
 class Ark(models.Model):

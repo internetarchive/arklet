@@ -10,19 +10,19 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Naan)
 class NaanAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["name", "naan"]
 
 
 @admin.register(Shoulder)
 class ShoulderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["shoulder", "name", "naan"]
 
 
 @admin.register(Ark)
 class ArkAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["ark", "url"]
 
 
 @admin.register(Key)
 class KeyAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["key", "naan", "active"]
