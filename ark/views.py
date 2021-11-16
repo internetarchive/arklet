@@ -1,6 +1,7 @@
 import json
 import logging
 
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import (
     HttpResponse,
@@ -44,15 +45,14 @@ def mint_ark(request):
     if not bearer_token:
         return HttpResponseForbidden()
 
-    # TODO: possible IndexError
     key = bearer_token.split()[-1]
 
     try:
-        # TODO: is key valid enough to pass here?
         authorized_naan = Naan.objects.get(key__key=key)
     except Naan.DoesNotExist:
-        logger.info("")
         return HttpResponseForbidden()
+    except ValidationError as e:  # probably an invalid key
+        return HttpResponseBadRequest(e)
 
     naan = mint_request.cleaned_data["naan"]
     shoulder = mint_request.cleaned_data["shoulder"]
@@ -116,15 +116,15 @@ def update_ark(request):
     if not bearer_token:
         return HttpResponseForbidden()
 
-    # TODO: possible IndexError
     key = bearer_token.split()[-1]
 
     try:
         # TODO: is key valid enough to pass here?
         authorized_naan = Naan.objects.get(key__key=key)
     except Naan.DoesNotExist:
-        logger.info("")
         return HttpResponseForbidden()
+    except ValidationError as e:
+        return HttpResponseBadRequest(e)
 
     ark = update_request.cleaned_data["ark"]
     url = update_request.cleaned_data["url"]
