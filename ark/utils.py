@@ -23,10 +23,11 @@ def generate_noid(length: int) -> str:
 
 
 def parse_ark(ark: str) -> (str, int, str):
-    parts = ark.split("ark:/")
+    parts = ark.split("ark:")
     if len(parts) != 2:
         raise ValueError("Not a valid ARK")
     nma, ark = parts
+    ark = ark.lstrip("/")
     parts = ark.split("/")
     if len(parts) < 2:
         raise ValueError("Not a valid ARK")

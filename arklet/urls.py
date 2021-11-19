@@ -21,6 +21,6 @@ from ark import views
 urlpatterns = [
     path("mint", views.mint_ark, name="mint_ark"),
     path("update", views.update_ark, name="update_ark"),
-    re_path(r"^resolve/(?P<ark>ark:/.*$)", views.resolve_ark, name="resolve_ark"),
+    re_path(r"^(resolve/)?(?P<ark>ark:/?.*$)", views.resolve_ark, name="resolve_ark"),
     path("admin/", admin.site.urls),
 ]
