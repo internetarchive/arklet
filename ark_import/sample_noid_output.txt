@@ -1,0 +1,98 @@
+VERSION=3
+format=print
+type=btree
+duplicates=1
+db_pagesize=4096
+HEADER=END
+ :/bindings_count
+ 96203340
+ :/converted
+ converted from a Noid Berkeley DB at Tue Jun 30 09:30:55 2015.
+ :/dbversion
+ With Egg version 1.00, Using DB_File version 1.83, built with Berkeley DB version 4.007025, running with Berkeley DB version 4.7.
+ :/erc
+ erc:\0awho:       +jak\0awhat:      user-initiated (with mkbinder)\0awhen:      2015.06.30_09:12:59\0awhere:     ias-n2t-prd-2a:./oca/fulloca\0a
+ :/erc_original
+ # Creation record for the identifier generator in NOID/noid.bdb.\0a# \0aerc:\0awho:       jak/noid\0awhat:      707281000 random identifiers of form t.rdeedeedk\0a       A Noid minting and binding database has been created that will bind\0a       and mint 707,281,000 identifiers with the template "t.rdeedeedk".\0a       Sample identifiers would be "13960/t3mv1j04r" and "13960/t6s363150".\0a       Minting order is random.\0awhen:      20060508112522\0awhere:     thalia:/noid/nd/oca/.\0aVersion:   Noid 0.422\0aSize:      707281000\0aTemplate:  t.rdeedeedk\0a       A suggested parent directory for this template is "noid_t8".  Note:\0a       separate minters need separate directories, and templates can suggest\0a       short names; e.g., the template "xz.redek" suggests the parent directory\0a       "noid_xz4" since identifiers are "xz" followed by 4 characters.\0aPolicy:    (:GRA-ITE)\0a       This minter's durability summary is (maximum possible being "GRANITE")\0a         "GRA-ITE", which breaks down, property by property, as follows.\0a          ^^^^^^^\0a          |||||||______ (E)lided of vowels to avoid creating words by accident\0a          ||||||______ (T)ranscription safe due to a generated check character\0a          |||||______ (I)mpression safe from ignorable typesetter-added hyphens\0a          ||||__ not (N)on-reassignable in life of Name Assigning Authority\0a          |||______ (A)lphabetic-run-limited to pairs to avoid acronyms\0a          ||______ (R)andomly sequenced to avoid series semantics\0a          |______ (G)lobally unique within a registered namespace (currently\0a                     tests only ARK namespaces; apply for one at ark@cdlib.org)\0aAuthority: archive.org | oca\0aNAAN:      13960\0a
+ :/status
+ e
+ :/version
+ 1.00
+ :/version_original
+ 0.422
+ ark:/13960/fk3ws8hp67|__mc
+ 1435680779
+ ark:/13960/fk3ws8hp67|__mp
+ p:||76
+ ark:/13960/fk3ws8hp67|_t
+ http://www.archive.org/details/thereefanovel00wharrich
+ ark:/13960/t00000018|_,ec
+ 1152999140
+ ark:/13960/t00000018|_,ep
+ p:&P/1||76
+ ark:/13960/t00000018|__mc
+ 1152999140
+ ark:/13960/t00000018|__mp
+ p:||76
+ ark:/13960/t00000018|_t
+ http://www.archive.org/details/intronational00greerich
+ ark:/13960/t0000002r|_,ec
+ 1153166314
+ ark:/13960/t0000002r|_,ep
+ p:&P/1||76
+ ark:/13960/t0000002r|__mc
+ 1153166314
+ ark:/13960/t0000002r|__mp
+ p:||76
+ ark:/13960/t0000002r|_t
+ http://www.archive.org/details/plainreasons00littuoft
+ ark:/13960/t00000037|_,ec
+ 1153276798
+ ark:/13960/t00000037|_,ep
+ p:&P/1||76
+ ark:/13960/t00000037|__mc
+ 1153276798
+ ark:/13960/t00000037|__mp
+ p:||76
+ ark:/13960/t00000037|_t
+ http://www.archive.org/details/lifehisttravels00copwrich
+ ark:/13960/t0000004q|_,ec
+ 1153391422
+ ark:/13960/t0000004q|_,ep
+ p:&P/1||76
+ ark:/13960/t0000004q|__mc
+ 1153391422
+ ark:/13960/t0000004q|__mp
+ p:||76
+ ark:/13960/t0000004q|_t
+ http://www.archive.org/details/worksneverpublis03riccuoft
+ ark:/13960/t00000056|_,ec
+ 1153515099
+ ark:/13960/t00000056|_,ep
+ p:&P/1||76
+ ark:/13960/t00000056|__mc
+ 1153515099
+ ark:/13960/t00000056|__mp
+ p:||76
+ ark:/13960/t00000056|_t
+ http://www.archive.org/details/doctrinemiracles01hayuoft
+ ark:/13960/t0000006p|_,ec
+ 1153783020
+ ark:/13960/t0000006p|_,ep
+ p:&P/1||76
+ ark:/13960/t0000006p|__mc
+ 1153783020
+ ark:/13960/t0000006p|__mp
+ p:||76
+ ark:/13960/t0000006p|_t
+ http://www.archive.org/details/revolutionart_issue_2
+ ark:/13960/t00000075|_,ec
+ 1153820365
+ ark:/13960/t00000075|_,ep
+ p:&P/1||76
+ ark:/13960/t00000075|__mc
+ 1153820365
+ ark:/13960/t00000075|__mp
+ p:||76
+ ark:/13960/t00000075|_t
+ http://www.archive.org/details/republicanpart00protrich
