@@ -46,9 +46,9 @@ class Ark(models.Model):
     naan = models.ForeignKey(Naan, on_delete=models.DO_NOTHING, editable=False)
     shoulder = models.CharField(max_length=50, editable=False)
     assigned_name = models.CharField(max_length=100, editable=False)
-    url = models.URLField()
-    metadata = models.TextField()
-    commitment = models.TextField()
+    url = models.URLField(default="", blank=True)
+    metadata = models.TextField(default="", blank=True)
+    commitment = models.TextField(default="", blank=True)
 
     def clean(self):
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"
