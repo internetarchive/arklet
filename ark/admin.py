@@ -21,6 +21,7 @@ class ShoulderAdmin(admin.ModelAdmin):
 @admin.register(Ark)
 class ArkAdmin(admin.ModelAdmin):
     list_display = ["ark", "url"]
+    show_full_result_count = False
 
 
 @admin.register(Key)
