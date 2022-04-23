@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: arkled_db
+    image: postgres:14-alpine
+    env_file:
+      - ./docker/env.docker.local
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"
+
+  arklet:
+    container_name: arklet_django
+    restart: always
+    build:
+        context: .
+        target: dev
+        dockerfile: ./Dockerfile
+    command: /app/entrypoint.sh
+    volumes:
+      - ./ark:/app/ark
+      - ./ark_import:/app/ark_import
+      - ./arklet:/app/arklet
+    env_file:
+      - ./docker/env.docker.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres:
