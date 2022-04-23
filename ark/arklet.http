@@ -1,10 +1,10 @@
 ### Ark-Minting happy path
 POST http://127.0.0.1:8000/mint
 Content-Type: application/json
-Authorization: Bearer 0772fbc3-47f4-4eba-8ac8-e3d235e83397
+Authorization: Bearer 2207a3ab-b01c-44b3-bffd-f1d6bcac4220
 
 {
-	"naan": 13960,
+	"naan": 12345,
 	"shoulder": "/s2",
 	"url": "https://archive.org/details/random-avdempsey-memories",
 	"metadata": {},
@@ -17,7 +17,7 @@ Content-Type: application/json
 Authorization: Bearer DECAFBAD
 
 {
-"naan": 13960,
+"naan": 12345,
 "shoulder": "/t",
 "url": "https://archive.org/details/random-avdempsey-memories",
 "metadata": {},
