@@ -81,7 +81,7 @@ Create your first NAAN, Key, and Shoulder in the admin:
 And by the way, you now host a working ARK resolver! You can already
 try the following ones :
 - [http://127.0.0.1:8000/ark:/13960/t5n960f7n](http://127.0.0.1:8000/ark:/13960/t5n960f7n)
-- [http://127.0.0.1:8000/ark:/67375/C0X](http://127.0.0.1:8000/ark:/67375/C0X)
+- [http://127.0.0.1:8000/ark:/67375/C0X-SPWFRSGR-N](http://127.0.0.1:8000/ark:/67375/C0X-SPWFRSGR-N)
 - [http://127.0.0.1:8000/ark:/12148/bpt6k65358454](http://127.0.0.1:8000/ark:/12148/bpt6k65358454)
 - ...
 
