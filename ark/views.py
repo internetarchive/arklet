@@ -3,22 +3,15 @@ import logging
 
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.http import (
-    HttpResponse,
-    HttpResponseRedirect,
-    Http404,
-    HttpResponseBadRequest,
-    JsonResponse,
-    HttpResponseNotAllowed,
-    HttpResponseForbidden,
-    HttpResponseServerError,
-)
+from django.http import (Http404, HttpResponse, HttpResponseBadRequest,
+                         HttpResponseForbidden, HttpResponseNotAllowed,
+                         HttpResponseRedirect, HttpResponseServerError,
+                         JsonResponse)
 from django.views.decorators.csrf import csrf_exempt
 
 from ark.forms import MintArkForm, UpdateArkForm
-from ark.models import Naan, Ark
+from ark.models import Ark, Naan
 from ark.utils import generate_noid, noid_check_digit, parse_ark
-
 
 logger = logging.getLogger(__name__)
 

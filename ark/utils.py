@@ -1,6 +1,5 @@
 import secrets
 
-
 BETANUMERIC = "0123456789bcdfghjkmnpqrstvwxz"
 
 
