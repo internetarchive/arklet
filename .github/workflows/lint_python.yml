@@ -6,6 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"  # Workaround for backports.zoneinfo
       - run: pip install --upgrade pip wheel
       - run: pip install bandit black codespell flake8 flake8-2020 flake8-bugbear
                          flake8-comprehensions isort mypy pytest pyupgrade safety
@@ -14,7 +16,7 @@ jobs:
       - run: codespell --ignore-words-list="nd"  # --skip="*.css,*.js,*.lock"
       - run: flake8 --ignore=F401 --max-complexity=15 --max-line-length=138 --show-source --statistics .
       - run: isort --check-only --profile black . || true
-      - run: pip install -r requirements.txt || true
+      - run: pip install -r requirements.txt
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive .
       - run: pytest . || true
