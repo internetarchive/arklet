@@ -22,7 +22,7 @@ def generate_noid(length: int) -> str:
     return "".join(secrets.choice(BETANUMERIC) for _ in range(length))
 
 
-def parse_ark(ark: str) -> (str, int, str):
+def parse_ark(ark: str) -> tuple(str, int, str):
     parts = ark.split("ark:")
     if len(parts) != 2:
         raise ValueError("Not a valid ARK")
@@ -33,7 +33,7 @@ def parse_ark(ark: str) -> (str, int, str):
         raise ValueError("Not a valid ARK")
     naan, assigned_name = parts[:2]
     try:
-        naan = int(naan)
+        naan = int(naan)  # type: ignore
     except ValueError:
         raise ValueError("ARK NAAN must be an integer")
 
