@@ -33,8 +33,8 @@ def parse_ark(ark: str) -> tuple[str, int, str]:
         raise ValueError("Not a valid ARK")
     naan, assigned_name = parts[:2]
     try:
-        naan = int(naan)  # type: ignore
+        naan_int = int(naan)
     except ValueError:
         raise ValueError("ARK NAAN must be an integer")
 
-    return nma, naan, assigned_name
+    return nma, naan_int, assigned_name
