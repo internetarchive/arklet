@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import secrets
 
 
@@ -22,7 +24,7 @@ def generate_noid(length: int) -> str:
     return "".join(secrets.choice(BETANUMERIC) for _ in range(length))
 
 
-def parse_ark(ark: str) -> tuple[str, int, str]:
+def parse_ark(ark: str) -> Tuple[str, int, str]:
     parts = ark.split("ark:")
     if len(parts) != 2:
         raise ValueError("Not a valid ARK")
