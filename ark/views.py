@@ -164,7 +164,9 @@ def resolve_ark(request, ark: str):
     except Ark.DoesNotExist:
         try:
             naan_obj = Naan.objects.get(naan=naan)
-            return HttpResponseRedirect(f"{naan_obj.url}/ark:/{naan_obj.naan}/{assigned_name}")
+            return HttpResponseRedirect(
+                f"{naan_obj.url}/ark:/{naan_obj.naan}/{assigned_name}"
+            )
         except Naan.DoesNotExist:
             resolver = "https://n2t.net"
             # TODO: more robust resolver URL creation
