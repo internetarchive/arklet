@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.db import OperationalError, connection, transaction
 from django.utils.functional import cached_property
 
-from ark.models import User, Naan, Shoulder, Ark, Key
+from ark.models import Ark, Key, Naan, Shoulder, User
 
 
 class TimeLimitedPaginator(Paginator):

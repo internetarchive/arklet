@@ -10,13 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
 from pathlib import Path
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-import yaml
 import environ
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     # set default values
@@ -32,8 +32,10 @@ env = environ.Env(
     ARKLET_STATIC_ROOT=(str, "static"),
     ARKLET_MEDIA_ROOT=(str, "media"),
 )
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+# .env files are optional. django-environ will log an INFO message if no file is found
+# and arklet will continue to run assuming all required environment variables are set.
+environ.Env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -79,20 +81,6 @@ ROOT_URLCONF = "arklet.urls"
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "environment": "arklet.jinja2env.environment",
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-    {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "APP_DIRS": True,
         "OPTIONS": {
@@ -123,7 +111,7 @@ DATABASES = {
         "PORT": env("ARKLET_POSTGRES_PORT"),
         "USER": env("ARKLET_POSTGRES_USER"),
         "PASSWORD": env("ARKLET_POSTGRES_PASSWORD"),
-        "DISABLE_SERVER_SIDE_CURSORS": True,
+        "DISABLE_SERVER_SIDE_CURSORS": True,  # required for pgbouncer transaction mode
     }
 }
 
@@ -159,8 +147,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -180,9 +166,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SENTRY_DSN = env("ARKLET_SENTRY_DSN")
 SENTRY_SAMPLE_RATE = 1 / int(env("ARKLET_SENTRY_TRANSACTIONS_PER_TRACE"))
-sentry_sdk.init(
-    dsn=SENTRY_DSN,
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=SENTRY_SAMPLE_RATE,
-    send_default_pii=True,
-)
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=SENTRY_SAMPLE_RATE,
+        send_default_pii=True,
+    )

@@ -4,21 +4,20 @@ import logging
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import (
-    HttpResponse,
-    HttpResponseRedirect,
     Http404,
+    HttpResponse,
     HttpResponseBadRequest,
-    JsonResponse,
-    HttpResponseNotAllowed,
     HttpResponseForbidden,
+    HttpResponseNotAllowed,
+    HttpResponseRedirect,
     HttpResponseServerError,
+    JsonResponse,
 )
 from django.views.decorators.csrf import csrf_exempt
 
 from ark.forms import MintArkForm, UpdateArkForm
-from ark.models import Naan, Ark
+from ark.models import Ark, Naan
 from ark.utils import generate_noid, noid_check_digit, parse_ark
-
 
 logger = logging.getLogger(__name__)
 
@@ -33,11 +32,10 @@ def mint_ark(request):
     except (json.JSONDecodeError, TypeError) as e:
         return HttpResponseBadRequest(e)
 
-    # TODO: test input data with wrong structure
     mint_request = MintArkForm(unsafe_mint_request)
 
     if not mint_request.is_valid():
-        return JsonResponse(mint_request.errors.as_json(), status=400)
+        return JsonResponse(mint_request.errors, status=400)
 
     # TODO: get rid of UUID for key
     # TODO: hash the keys and only show on creation
@@ -89,7 +87,7 @@ def mint_ark(request):
         logger.error(msg)
         return HttpResponseServerError(msg)
     if ark and collisions > 0:
-        logger.warning(f"Ark created after {collisions} collision(s)")
+        logger.warning("Ark created after %d collision(s)", collisions)
 
     return JsonResponse({"ark": str(ark)})
 
@@ -108,7 +106,7 @@ def update_ark(request):
     update_request = UpdateArkForm(unsafe_update_request)
 
     if not update_request.is_valid():
-        return JsonResponse(update_request.errors.as_json(), status=400)
+        return JsonResponse(update_request.errors, status=400)
 
     # TODO: get rid of UUID for key
     # TODO: hash the keys and only show on creation
@@ -164,7 +162,9 @@ def resolve_ark(request, ark: str):
     except Ark.DoesNotExist:
         try:
             naan_obj = Naan.objects.get(naan=naan)
-            return HttpResponseRedirect(f"{naan_obj.url}/ark:/{naan_obj.naan}/{assigned_name}")
+            return HttpResponseRedirect(
+                f"{naan_obj.url}/ark:/{naan_obj.naan}/{assigned_name}"
+            )
         except Naan.DoesNotExist:
             resolver = "https://n2t.net"
             # TODO: more robust resolver URL creation
