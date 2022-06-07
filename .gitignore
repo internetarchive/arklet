@@ -4,6 +4,7 @@ venv
 .DS_Store
 prod.http
 .env
+.python-version
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

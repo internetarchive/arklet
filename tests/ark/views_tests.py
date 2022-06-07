@@ -1,10 +1,10 @@
 """Tests for ark/views.py, comprising the main endpoints for arklet."""
 # pylint: disable=no-self-use
 
+import uuid
 from dataclasses import asdict, dataclass
 from itertools import chain, count
 from unittest.mock import patch
-import uuid
 
 import pytest
 
