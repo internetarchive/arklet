@@ -1,0 +1,26 @@
+# see: https://pylint.pycqa.org/en/latest/messages/messages_list.html
+# see: https://pylint.pycqa.org/en/latest/technical_reference/features.html
+# see: https://www.getcodeflow.com/pylint-configuration.html
+
+[MASTER]
+
+# List of plugins (as comma separated values of python module names) to load,
+# usually to register additional checkers.
+load-plugins=pylint_django,pylint_pytest
+
+django-settings-module=arklet.settings
+
+
+[BASIC]
+
+# Good variable names which should always be accepted, separated by a comma.
+good-names=i,
+           j,
+           k,
+           e,
+           ex,
+           Run,
+           _,
+           rf,
+           pk,
+           db,

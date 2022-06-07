@@ -4,7 +4,17 @@
 See https://arks.org/
 
 ## What is Arklet?
-Arklet is a Python Django application for minting, binding, and resolving ARKs. It is intended to follow best practices set out by https://arks.org/.
+Arklet is a Python Django application for minting, binding, and resolving ARKs.
+It is intended to follow best practices set out by https://arks.org/.
+
+Technical design notes:
+- Django is the only required dependency.
+- This repo can be run as a standalone service 
+- ...or the ark package can be installed as a reusable app in other Django projects. 
+    - If using the included arklet/settings.py file django-environ is also required.
+- Arklet is database agnostic.
+
+Arklet is developed with poetry, pytest, black, tox, and more.
 
 ## Running
 
@@ -20,7 +30,11 @@ ARKLET_DJANGO_SECRET_KEY=[YOUR_SECRET]
 ARKLET_DEBUG=True
 ```
 
-Run Postgres, install into virtual environment, and start the app:
+The following steps walk through running Postgres, installing with poetry, and starting
+the app. You can omit any of the extras listed in the poetry install step if they are
+not used in your deployment. The included arklet/settings.py file does require environ.
+You can skip installing the development dependencies by passing `--no-dev` to poetry.
+Django is the only required dependency.
 ```
 cd path/to/project
 mkdir postgres-data
@@ -28,12 +42,10 @@ docker run --name arklet-postgres -v postgres-data:/var/lib/postgresql/data \
     -p 5432:5432 \
     -e POSTGRES_USER=arklet -e POSTGRES_PASSWORD=arklet \
     -d postgres:10
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+poetry install --extras "postgres sentry environ"
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
 ```
 
 ### Separate dockers

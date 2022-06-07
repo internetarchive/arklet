@@ -30,6 +30,8 @@ def parse_ark(ark: str) -> (str, int, str):
     parts = ark.split("/")
     if len(parts) < 2:
         raise ValueError("Not a valid ARK")
+    # TODO: assigned_name definition here conflicts with models.Ark.assigned_name
+    # parse_ark here doesn't attempt to parse out the shoulder of the ARK.
     naan, assigned_name = parts[:2]
     try:
         naan = int(naan)

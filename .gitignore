@@ -3,6 +3,7 @@ venv
 .idea/
 .DS_Store
 prod.http
+.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
