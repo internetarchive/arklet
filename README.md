@@ -9,6 +9,8 @@ It is intended to follow best practices set out by https://arks.org/.
 
 Technical design notes:
 - Django is the only required dependency.
+- Supports each Django and Python version that is itself supported by the maintainers (Python 3.7-3.10, Django 3.2.x-4.0.x).
+    - Tests are run against the upcoming versions of Python and Django as well. 
 - This repo can be run as a standalone service 
 - ...or the ark package can be installed as a reusable app in other Django projects. 
     - If using the included arklet/settings.py file django-environ is also required.
