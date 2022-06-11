@@ -5,6 +5,10 @@ venv
 prod.http
 .env
 .python-version
+.tox/
+.pytest_cache
+.coverage
+htmlcov/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
