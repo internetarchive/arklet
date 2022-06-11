@@ -1,10 +1,17 @@
-from django.core.management.base import BaseCommand, CommandError
+"""Django Admin command to mint ARKs in bulk.
+
+This command was created to populate a test database for load testing. It only mints
+ARKs, it doesn't bind URLs to them.
+"""
+
+from django.core.management.base import BaseCommand
 
 from ark.models import Ark, Naan
 from ark.utils import generate_noid
 
 
 class Command(BaseCommand):
+    """Mint ark_count ARKs for the given naan and shoulder."""
     help = "Mint ARKs in bulk"
 
     def add_arguments(self, parser):

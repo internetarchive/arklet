@@ -12,9 +12,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4.0"
+python = ">=3.7.2,<4.0"
 Django = [
-    {version = "^3.2", python = "^3.7"},
+    {version = "~3.2", python = "~3.7"},
     {version = ">=3.2", python = ">=3.8"}
 ]
 psycopg2 = { version = "^2.7", optional = true }
@@ -28,7 +28,7 @@ environ = ["django-environ"]
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
-pylint = "^2.13.8"
+pylint = "^2.14.1"
 isort = "^5.10.1"
 flake8 = "^4.0.1"
 pylint-django = "^2.5.3"
@@ -37,11 +37,27 @@ pytest = "^7.1.2"
 pytest-django = "^4.5.2"
 pylint-pytest = "^1.1.2"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.poetry.scripts]
 server = 'server:main'
 migrate = 'server:migrate'
 createsuperuser = 'server:createsuperuser'
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "arklet.settings"
+python_files = "tests.py test_*.py *_tests.py"
+addopts = "--reuse-db"
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.main]
+load-plugins = ["pylint_django", "pylint_pytest"]
+django-settings-module = "arklet.settings"
+
+[tool.pylint.basic]
+# Good variable names whic≠h should always be accepted, separated by a comma.
+good-names = ["i", "j", "k", "e", "ex", "Run", "_", "rf", "pk", "db"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

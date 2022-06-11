@@ -1,5 +1,4 @@
 """Tests for ark/views.py, comprising the main endpoints for arklet."""
-# pylint: disable=no-self-use
 
 import uuid
 from dataclasses import asdict, dataclass
@@ -174,8 +173,8 @@ class TestMintArk:
         mock_noid_gen.return_value = existing_noid
         res = client.post(**asdict(mint_ark_args))
         # Then we log the error
-        is_error_log = lambda rec: rec.msg.startswith("Gave up creating ark after")
-        assert any(record for record in caplog.records if is_error_log(record))
+        msg = "Gave up creating ark after"
+        assert any(record for record in caplog.records if record.msg.startswith(msg))
         # Then we get a 500 Internal Server Error
         assert res.status_code == 500
 
@@ -202,6 +201,6 @@ class TestMintArk:
         # When mint_ark generates a single collision
         res = client.post(**asdict(mint_ark_args))
         # Then arklet logs a warning about the collision, but otherwise succeeds
-        is_coll_warning = lambda rec: rec.msg == "Ark created after %d collision(s)"
-        assert any(record for record in caplog.records if is_coll_warning(record))
+        msg = "Ark created after %d collision(s)"
+        assert any(record for record in caplog.records if record.msg == msg)
         self._validate_success(mint_ark_args, res)

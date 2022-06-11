@@ -43,7 +43,7 @@ mkdir postgres-data
 docker run --name arklet-postgres -v postgres-data:/var/lib/postgresql/data \
     -p 5432:5432 \
     -e POSTGRES_USER=arklet -e POSTGRES_PASSWORD=arklet \
-    -d postgres:10
+    -d postgres
 poetry install --extras "postgres sentry environ"
 poetry run python manage.py migrate
 poetry run python manage.py createsuperuser
