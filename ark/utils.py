@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import secrets
 
 BETANUMERIC = "0123456789bcdfghjkmnpqrstvwxz"
@@ -21,7 +23,7 @@ def generate_noid(length: int) -> str:
     return "".join(secrets.choice(BETANUMERIC) for _ in range(length))
 
 
-def parse_ark(ark: str) -> (str, int, str):
+def parse_ark(ark: str) -> Tuple[str, int, str]:
     parts = ark.split("ark:")
     if len(parts) != 2:
         raise ValueError("Not a valid ARK")
@@ -34,8 +36,8 @@ def parse_ark(ark: str) -> (str, int, str):
     # parse_ark here doesn't attempt to parse out the shoulder of the ARK.
     naan, assigned_name = parts[:2]
     try:
-        naan = int(naan)
+        naan_int = int(naan)
     except ValueError:
         raise ValueError("ARK NAAN must be an integer")
 
-    return nma, naan, assigned_name
+    return nma, naan_int, assigned_name

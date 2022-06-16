@@ -154,11 +154,11 @@ def resolve_ark(request, ark: str):
     except ValueError as e:
         return HttpResponseBadRequest(e)
     try:
-        ark = Ark.objects.get(ark=f"{naan}/{assigned_name}")
-        if not ark.url:
+        ark_obj = Ark.objects.get(ark=f"{naan}/{assigned_name}")
+        if not ark_obj.url:
             # TODO: return a template page for an ARK in progress
             raise Http404
-        return HttpResponseRedirect(ark.url)
+        return HttpResponseRedirect(ark_obj.url)
     except Ark.DoesNotExist:
         try:
             naan_obj = Naan.objects.get(naan=naan)
