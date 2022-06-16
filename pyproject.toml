@@ -57,7 +57,7 @@ load-plugins = ["pylint_django", "pylint_pytest"]
 django-settings-module = "arklet.settings"
 
 [tool.pylint.basic]
-# Good variable names whic≠h should always be accepted, separated by a comma.
+# Good variable names which should always be accepted, separated by a comma.
 good-names = ["i", "j", "k", "e", "ex", "Run", "_", "rf", "pk", "db"]
 
 [build-system]
