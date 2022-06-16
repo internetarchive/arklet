@@ -12,6 +12,7 @@ from ark.utils import generate_noid
 
 class Command(BaseCommand):
     """Mint ark_count ARKs for the given naan and shoulder."""
+
     help = "Mint ARKs in bulk"
 
     def add_arguments(self, parser):
