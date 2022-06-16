@@ -1,4 +1,2 @@
 [bandit]
-exclude:
-  - /tests
-  - server.py
+exclude: "/tests, server.py"
