@@ -1,0 +1,4 @@
+[bandit]
+exclude:
+  - /tests
+  - server.py
