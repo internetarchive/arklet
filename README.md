@@ -1,5 +1,8 @@
 # Arklet - A basic ARK resolver
 
+![lint_python](https://github.com/internetarchive/arklet/actions/workflows/lint_python.yml/badge.svg)
+
+
 ## What is an ARK?
 See https://arks.org/
 
