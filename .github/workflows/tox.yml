@@ -14,6 +14,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install --upgrade pip
-      - run: pip install poetry
-      - run: poetry install tox
+      - run: pip install poetry tox
+      - run: poetry install
       - run: poetry run tox -e py
