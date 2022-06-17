@@ -17,6 +17,6 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install django poetry
       - run: poetry install
-      - run: poetry run tox -e py
+      - run: poetry run tox -e py-django${{ matrix.django-version }}
         env:
           DJANGO: ${{ matrix.django-version }}
