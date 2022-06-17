@@ -15,5 +15,6 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install --upgrade pip
       - run: pip install poetry
-      - run: poetry install django tox
+      - run: poetry init
+      - run: poetry install tox
       - run: poetry run tox -e py
