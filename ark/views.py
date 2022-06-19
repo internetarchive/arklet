@@ -39,7 +39,7 @@ def mint_ark(request):
 
     # TODO: get rid of UUID for key
     # TODO: hash the keys and only show on creation
-    bearer_token = request.headers.get('Authorization')
+    bearer_token = request.headers.get("Authorization")
     if not bearer_token:
         return HttpResponseForbidden()
 
@@ -110,7 +110,7 @@ def update_ark(request):
 
     # TODO: get rid of UUID for key
     # TODO: hash the keys and only show on creation
-    bearer_token = request.headers.get('Authorization')
+    bearer_token = request.headers.get("Authorization")
     if not bearer_token:
         return HttpResponseForbidden()
 
