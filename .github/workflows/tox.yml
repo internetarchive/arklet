@@ -15,6 +15,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install --upgrade pip
-      - run: pip install django poetry
+      - run: pip install django poetry tox-gh-actions
       - run: poetry install
       - run: poetry run tox -e py${{ matrix.python }}-django${{ matrix.django-version }}
