@@ -48,7 +48,15 @@ class Ark(models.Model):
     assigned_name = models.CharField(max_length=100, editable=False)
     url = models.URLField(default="", blank=True)
     metadata = models.TextField(default="", blank=True)
-    commitment = models.TextField(default="", blank=True)
+
+    # Frick specific fields here:
+    title = models.TextField(default="", blank=True)
+    type = models.TextField(default="", blank=True)
+    rights = models.TextField(default="", blank=True)
+    identifier = models.TextField(default="", blank=True)
+    format = models.TextField(default="", blank=True)
+    relation = models.TextField(default="", blank=True)
+    source = models.TextField(default="", blank=True)
 
     def clean(self):
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"
