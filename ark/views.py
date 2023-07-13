@@ -14,6 +14,7 @@ from django.http import (
     JsonResponse,
 )
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 
 from ark.forms import MintArkForm, UpdateArkForm
 from ark.models import Ark, Naan
@@ -149,6 +150,7 @@ def update_ark(request):
 
 def resolve_ark(request, ark: str):
     # TODO: maybe just parse the ark in the urls.py re_path
+    inflections = request.GET
     try:
         _, naan, assigned_name = parse_ark(ark)
     except ValueError as e:
@@ -158,6 +160,10 @@ def resolve_ark(request, ark: str):
         if not ark_obj.url:
             # TODO: return a template page for an ARK in progress
             raise Http404
+        if 'info' in inflections:
+            return view_ark(request, ark_obj)
+        if 'json' in inflections:
+            return json_ark(request, ark_obj)
         return HttpResponseRedirect(ark_obj.url)
     except Ark.DoesNotExist:
         try:
@@ -169,3 +175,24 @@ def resolve_ark(request, ark: str):
             resolver = "https://n2t.net"
             # TODO: more robust resolver URL creation
             return HttpResponseRedirect(f"{resolver}/ark:/{naan}/{assigned_name}")
+
+
+def view_ark(request, ark: Ark):
+
+    # Prepare the data to be displayed in the template
+    context = {
+        'url': ark.url,
+        'title': ark.title
+    }
+
+    # Render the HTML template with the provided data
+    return render(request, 'info.html', context)
+
+def json_ark(request, ark: Ark):
+    data = {
+        'url': ark.url,
+        'title': ark.title
+    }
+
+    # Return the JSON response
+    return JsonResponse(data)
