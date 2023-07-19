@@ -58,6 +58,41 @@ class Ark(models.Model):
     relation = models.TextField(default="", blank=True)
     source = models.TextField(default="", blank=True)
 
+    COLUMN_METADATA = {
+        'title': {
+            'property': "http://purl.org/dc/elements/1.1/title",
+            'type': "xsd:string",
+        },
+        'type': {
+            'property': 'http://purl.org/dc/elements/1.1/type',
+            'type': "xsd:string",
+        },
+        'rights': {
+            'property': 'http://purl.org/dc/elements/1.1/rights',
+            'type': "xsd:string",
+        },
+        'identifier': {
+            'property': 'http://purl.org/dc/elements/1.1/identifier',
+            'type': "xsd:string",
+        },
+        'format': {
+            'property': 'http://purl.org/dc/elements/1.1/format',
+            'type': "xsd:string",
+        },
+        'relation': {
+            'property': 'http://purl.org/dc/elements/1.1/relation',
+            'type': 'xsd:anyURI'
+        },
+        'source': {
+            'property': 'http://purl.org/dc/elements/1.1/source',
+            'type': 'xsd:anyURI'
+        },
+        'url': {
+            'property': 'https://schema.org/url',
+            'type': 'xsd:anyURI'
+        }
+    }
+
     def clean(self):
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"
         if self.ark != expected_ark:

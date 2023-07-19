@@ -6,9 +6,26 @@
 </head>
 
 <body>
-    <h1>Ark Detail</h1>
-    <p>URL: {{ url }}</p>
-    <p>Title: {{ title }}</p>
+    <h1>Ark {{ ark }}</h1>
+    <p>
+        <a href="{{ url }}">{{ url }}</a>, {{ label }}
+    </p>
+    <p>Type: {{ type }}</p>
+    <p>Rights Statement: {{ rights }}</p>
+    <p>Format: {{ format }}</p>
+    {% if identifier %}
+        <p>Identifier: {{ identifier }}</p>
+    {% endif %}
+    {% if relation %}
+        <p>Relation: <a href="{{ relation }}">{{ relation }}</a></p>
+    {% endif %}
+    {% if source %}
+        <p>Source: <a href="{{ source }}">{{ source }}</a></p>
+    {% endif %}
+    {% if metadata %}
+        <p>Other Information: {{ metadata }}</p>
+    {% endif %}
+
 </body>
 
 </html>

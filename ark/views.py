@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import (
     Http404,
+    HttpRequest,
     HttpResponse,
     HttpResponseBadRequest,
     HttpResponseForbidden,
@@ -57,7 +58,7 @@ def mint_ark(request):
     shoulder = mint_request.cleaned_data["shoulder"]
     url = mint_request.cleaned_data["url"]
     metadata = mint_request.cleaned_data["metadata"]
-    commitment = mint_request.cleaned_data["commitment"]
+    rights = mint_request.cleaned_data["rights"]
 
     if authorized_naan.naan != naan:
         return HttpResponseForbidden()
@@ -76,7 +77,7 @@ def mint_ark(request):
                 assigned_name=f"{noid}{check_digit}",
                 url=url,
                 metadata=metadata,
-                commitment=commitment,
+                rights=rights,
             )
             break
         except IntegrityError:
@@ -128,7 +129,7 @@ def update_ark(request):
     ark = update_request.cleaned_data["ark"]
     url = update_request.cleaned_data["url"]
     metadata = update_request.cleaned_data["metadata"]
-    commitment = update_request.cleaned_data["commitment"]
+    rights = update_request.cleaned_data["rights"]
 
     _, naan, assigned_name = parse_ark(ark)
 
@@ -142,7 +143,7 @@ def update_ark(request):
 
     ark.url = url
     ark.metadata = metadata
-    ark.commitment = commitment
+    ark.rights = rights
     ark.save()
 
     return HttpResponse()
@@ -177,22 +178,47 @@ def resolve_ark(request, ark: str):
             return HttpResponseRedirect(f"{resolver}/ark:/{naan}/{assigned_name}")
 
 
-def view_ark(request, ark: Ark):
+"""
+Return HTML human readable webpage information about the Ark object
+"""
+def view_ark(request: HttpRequest, ark: Ark):
 
-    # Prepare the data to be displayed in the template
     context = {
+        'ark': ark.ark,
         'url': ark.url,
-        'title': ark.title
+        'label': ark.title,
+        'type': ark.type,
+        'rights': ark.rights,
+        'identifier': ark.identifier,
+        'format': ark.format,
+        'relation': ark.relation,
+        'source': ark.source,
+        'metadata': ark.metadata
     }
 
-    # Render the HTML template with the provided data
     return render(request, 'info.html', context)
 
-def json_ark(request, ark: Ark):
+"""
+Return the Ark object as JSON
+"""
+def json_ark(request: HttpRequest, ark: Ark):
     data = {
+        'ark': ark.ark,
         'url': ark.url,
-        'title': ark.title
+        'title': ark.title,
+        'type': ark.type,
+        'rights': ark.rights,
+        'identifier': ark.identifier,
+        'format': ark.format,
+        'relation': ark.relation,
+        'source': ark.source,
+        'metadata': ark.metadata
     }
+    obj = {}
+    for key in data:
+        obj[key] = Ark.COLUMN_METADATA.get(key, {})
+        obj[key]['value'] = data[key]
+
 
     # Return the JSON response
-    return JsonResponse(data)
+    return JsonResponse(obj)
