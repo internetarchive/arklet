@@ -32,7 +32,7 @@ class ArkAdmin(admin.ModelAdmin):
     This view will tend to take a long time to load as a full table count query is run.
     """
 
-    list_display = ["ark", "url"]
+    list_display = ["ark", "url", "created_at", "updated_at"]
     show_full_result_count = False
 
 

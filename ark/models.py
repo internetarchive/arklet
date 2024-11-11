@@ -145,8 +145,16 @@ class Ark(models.Model):
     url = models.URLField(default="", blank=True)
     metadata = models.TextField(default="", blank=True)
     commitment = models.TextField(default="", blank=True)
+    created_at = models.DateTimeField(null=True, auto_now_add=True)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     objects = ArkManager()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["updated_at"]),
+        ]
 
     def clean(self):
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"
