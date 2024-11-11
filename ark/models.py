@@ -2,7 +2,9 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import IntegrityError, models
+
+from ark.utils import generate_noid, noid_check_digit
 
 
 class Naan(models.Model):
@@ -41,6 +43,31 @@ class Shoulder(models.Model):
         return f"{self.naan.naan}{self.shoulder}"
 
 
+class ArkManager(models.Manager):
+    def mint(self, naan, shoulder, url, metadata, commitment):
+        ark, collisions = None, 0
+        for _ in range(10):
+            noid = generate_noid(8)
+            base_ark_string = f"{naan.naan}{shoulder}{noid}"
+            check_digit = noid_check_digit(base_ark_string)
+            ark_string = f"{base_ark_string}{check_digit}"
+            try:
+                ark = self.create(
+                    ark=ark_string,
+                    naan=naan,
+                    shoulder=shoulder,
+                    assigned_name=f"{noid}{check_digit}",
+                    url=url,
+                    metadata=metadata,
+                    commitment=commitment,
+                )
+                break
+            except IntegrityError:
+                collisions += 1
+                continue
+        return ark, collisions
+
+
 class Ark(models.Model):
     ark = models.CharField(primary_key=True, max_length=200, editable=False)
     naan = models.ForeignKey(Naan, on_delete=models.DO_NOTHING, editable=False)
@@ -49,6 +76,8 @@ class Ark(models.Model):
     url = models.URLField(default="", blank=True)
     metadata = models.TextField(default="", blank=True)
     commitment = models.TextField(default="", blank=True)
+
+    objects = ArkManager()
 
     def clean(self):
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"

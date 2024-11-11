@@ -1,8 +1,6 @@
 import json
 import logging
 
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
 from django.http import (
     Http404,
     HttpResponse,
@@ -17,9 +15,18 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ark.forms import MintArkForm, UpdateArkForm
 from ark.models import Ark, Naan
-from ark.utils import generate_noid, noid_check_digit, parse_ark
+from ark.utils import parse_ark
 
 logger = logging.getLogger(__name__)
+
+
+def authorize(request) -> Naan:
+    # TODO: get rid of UUID for key
+    # TODO: hash the keys and only show on creation
+    bearer_token = request.headers.get("Authorization")
+    key = bearer_token.split()[-1]
+    authorized_naan = Naan.objects.get(key__key=key)
+    return authorized_naan
 
 
 @csrf_exempt
@@ -27,60 +34,34 @@ def mint_ark(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=["POST"])
 
+    # Check if request has an authorized NAAN
+    try:
+        authorized_naan = authorize(request)
+    except Exception:
+        return HttpResponseForbidden()
+
+    # Validate POST
     try:
         unsafe_mint_request = json.loads(request.body.decode("utf-8"))
-    except (json.JSONDecodeError, TypeError) as e:
-        return HttpResponseBadRequest(e)
+        mint_request = MintArkForm(unsafe_mint_request)
+        if not mint_request.is_valid():
+            return JsonResponse(mint_request.errors, status=400)
+    except (json.JSONDecodeError, TypeError):
+        return HttpResponseBadRequest()
 
-    mint_request = MintArkForm(unsafe_mint_request)
-
-    if not mint_request.is_valid():
-        return JsonResponse(mint_request.errors, status=400)
-
-    # TODO: get rid of UUID for key
-    # TODO: hash the keys and only show on creation
-    bearer_token = request.headers.get("Authorization")
-    if not bearer_token:
-        return HttpResponseForbidden()
-
-    key = bearer_token.split()[-1]
-
-    try:
-        authorized_naan = Naan.objects.get(key__key=key)
-    except Naan.DoesNotExist:
-        return HttpResponseForbidden()
-    except ValidationError as e:  # probably an invalid key
-        return HttpResponseBadRequest(e)
-
+    # Check NAAN is authorized to mint ARK for NAAN
     naan = mint_request.cleaned_data["naan"]
+    if authorized_naan.naan != naan:
+        return HttpResponseForbidden()
+
+    # Mint the ARK
     shoulder = mint_request.cleaned_data["shoulder"]
     url = mint_request.cleaned_data["url"]
     metadata = mint_request.cleaned_data["metadata"]
     commitment = mint_request.cleaned_data["commitment"]
-
-    if authorized_naan.naan != naan:
-        return HttpResponseForbidden()
-
-    ark, collisions = None, 0
-    for _ in range(10):
-        noid = generate_noid(8)
-        base_ark_string = f"{naan}{shoulder}{noid}"
-        check_digit = noid_check_digit(base_ark_string)
-        ark_string = f"{base_ark_string}{check_digit}"
-        try:
-            ark = Ark.objects.create(
-                ark=ark_string,
-                naan=authorized_naan,
-                shoulder=shoulder,
-                assigned_name=f"{noid}{check_digit}",
-                url=url,
-                metadata=metadata,
-                commitment=commitment,
-            )
-            break
-        except IntegrityError:
-            collisions += 1
-            continue
+    ark, collisions = Ark.objects.mint(
+        authorized_naan, shoulder, url, metadata, commitment
+    )
 
     if not ark:
         msg = f"Gave up creating ark after {collisions} collision(s)"
@@ -97,32 +78,20 @@ def update_ark(request):
     if request.method != "PUT":
         return HttpResponseNotAllowed(permitted_methods=["PUT"])
 
+    # Check if request has an authorized NAAN
+    try:
+        authorized_naan = authorize(request)
+    except Exception:
+        return HttpResponseForbidden()
+
+    # Validate PUT
     try:
         unsafe_update_request = json.loads(request.body.decode("utf-8"))
-    except (json.JSONDecodeError, TypeError) as e:
-        return HttpResponseBadRequest(e)
-
-    # TODO: test input data with wrong structure
-    update_request = UpdateArkForm(unsafe_update_request)
-
-    if not update_request.is_valid():
-        return JsonResponse(update_request.errors, status=400)
-
-    # TODO: get rid of UUID for key
-    # TODO: hash the keys and only show on creation
-    bearer_token = request.headers.get("Authorization")
-    if not bearer_token:
-        return HttpResponseForbidden()
-
-    key = bearer_token.split()[-1]
-
-    try:
-        # TODO: is key valid enough to pass here?
-        authorized_naan = Naan.objects.get(key__key=key)
-    except Naan.DoesNotExist:
-        return HttpResponseForbidden()
-    except ValidationError as e:
-        return HttpResponseBadRequest(e)
+        update_request = UpdateArkForm(unsafe_update_request)
+        if not update_request.is_valid():
+            return JsonResponse(update_request.errors, status=400)
+    except (json.JSONDecodeError, TypeError):
+        return HttpResponseBadRequest()
 
     ark = update_request.cleaned_data["ark"]
     url = update_request.cleaned_data["url"]
@@ -131,11 +100,13 @@ def update_ark(request):
 
     _, naan, assigned_name = parse_ark(ark)
 
+    # Check NAAN is authorized to update this ARK
     if authorized_naan.naan != naan:
         return HttpResponseForbidden()
 
+    # Update the ARK
     try:
-        ark = Ark.objects.get(ark=f"{naan}/{assigned_name}")
+        ark = Ark.objects.select_for_update(ark=f"{naan}/{assigned_name}")
     except Ark.DoesNotExist:
         raise Http404
 
@@ -148,11 +119,11 @@ def update_ark(request):
 
 
 def resolve_ark(request, ark: str):
-    # TODO: maybe just parse the ark in the urls.py re_path
     try:
         _, naan, assigned_name = parse_ark(ark)
     except ValueError as e:
-        return HttpResponseBadRequest(e)
+        logger.warning("Failed to parse ark %s with error %s", ark, e, exc_info=True)
+        return HttpResponseBadRequest()
     try:
         ark_obj = Ark.objects.get(ark=f"{naan}/{assigned_name}")
         if not ark_obj.url:

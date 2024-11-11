@@ -35,6 +35,9 @@ def parse_ark(ark: str) -> Tuple[str, int, str]:
     # TODO: assigned_name definition here conflicts with models.Ark.assigned_name
     # parse_ark here doesn't attempt to parse out the shoulder of the ARK.
     naan, assigned_name = parts[:2]
+    if len(naan) > 10:
+        # Limit the size of input to int(naan)
+        raise ValueError("Not a valid NAAN")
     try:
         naan_int = int(naan)
     except ValueError:

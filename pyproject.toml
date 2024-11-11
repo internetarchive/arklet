@@ -1,17 +1,20 @@
-[tool.poetry]
+[project]
 name = "arklet"
-version = "0.1.0"
+version = "0.2.0"
 description = "An unassuming ARK minter, binder, and resolver"
-authors = ["Alex Dempsey <avdempsey@archive.org>"]
-license = "MIT"
 readme = "README.md"
-repository = "https://github.com/internetarchive/arklet"
+authors = [
+    {name = "Alex Dempsey", email = "avdempsey@archive.org"},
+]
+license = {file = "LICENSE"}
 classifiers = [
     "Environment :: Web Environment",
     "Framework :: Django",
-    "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Development Status :: 4 - Beta",
@@ -19,7 +22,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -27,60 +29,35 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
 ]
-packages = [
-    { include = "ark" },
-    { include = "ark_import" },
+requires-python = ">=3.8"
+dependencies = [
+    "Django>=4.0.10",
+    "django-environ"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.7.2,<4.0"
-Django = [
-    {version = "~3.2", python = "~3.7"},
-    {version = ">=3.2", python = ">=3.8"}
+[project.urls]
+Repository = "https://github.com/internetarchive/arklet"
+
+[project.optional-dependencies]
+postgres = [
+    "psycopg2-binary"
 ]
-psycopg2 = { version = "^2.7", optional = true }
-sentry-sdk = {version = "^1.5.12", optional = true}
-django-environ = {version = "^0.8.1", optional = true}
+sentry = [
+    "sentry-sdk"
+]
 
-[tool.poetry.extras]
-postgres = ["psycopg2"]
-sentry = ["sentry-sdk"]
-environ = ["django-environ"]
+[dependency-groups]
+dev = [
+    "pytest >=8.1.1,<9",
+    "pytest-django",
+    "ruff"
+]
 
-[tool.poetry.dev-dependencies]
-black = "^22.3.0"
-pylint = "^2.14.1"
-isort = "^5.10.1"
-flake8 = "^4.0.1"
-pylint-django = "^2.5.3"
-tox = "^3.25.0"
-pytest = "^7.1.2"
-pytest-django = "^4.5.2"
-pylint-pytest = "^1.1.2"
-coverage = "^6.4.1"
-pytest-cov = "^3.0.0"
-
-[tool.poetry.scripts]
-server = 'server:main'
-migrate = 'server:migrate'
-createsuperuser = 'server:createsuperuser'
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "arklet.settings"
 python_files = "tests.py test_*.py *_tests.py"
 addopts = "--reuse-db"
-
-[tool.isort]
-profile = "black"
-
-[tool.pylint.main]
-load-plugins = ["pylint_django", "pylint_pytest"]
-django-settings-module = "arklet.settings"
-
-[tool.pylint.basic]
-# Good variable names which should always be accepted, separated by a comma.
-good-names = ["i", "j", "k", "e", "ex", "Run", "_", "rf", "pk", "db"]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"

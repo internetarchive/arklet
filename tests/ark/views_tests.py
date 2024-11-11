@@ -140,8 +140,8 @@ class TestMintArk:
         # When the authorization header value isn't a UUID4
         mint_ark_args.HTTP_AUTHORIZATION = "Bearer not-a-uuid4"
         res = client.post(**asdict(mint_ark_args))
-        # Then we get a 400 Bad Request
-        assert res.status_code == 400
+        # Then we get a 403 Forbidden
+        assert res.status_code == 403
 
     def test_authorized_naan_matches_post_naan(self, client, mint_ark_args) -> None:
         """mint_ark NAAN in auth header matches NAAN in POST body."""
@@ -152,7 +152,7 @@ class TestMintArk:
         assert res.status_code == 403
 
     @pytest.mark.django_db(transaction=True)
-    @patch("ark.views.generate_noid")
+    @patch("ark.models.generate_noid")
     def test_fails_after_too_many_collisions(
         self, mock_noid_gen, caplog, client, mint_ark_args, ark
     ) -> None:
@@ -179,7 +179,7 @@ class TestMintArk:
         assert res.status_code == 500
 
     @pytest.mark.django_db(transaction=True)
-    @patch("ark.views.generate_noid")
+    @patch("ark.models.generate_noid")
     def test_succeeds_on_single_collision(
         self, mock_noid_gen, caplog, client, mint_ark_args, ark
     ) -> None:

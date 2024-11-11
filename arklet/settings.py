@@ -41,7 +41,9 @@ environ.Env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("ARKLET_DJANGO_SECRET_KEY")  # Intentionally no default value
+SECRET_KEY = env.str(
+    "ARKLET_DJANGO_SECRET_KEY", "test"
+)  # Intentionally no default value
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("ARKLET_DEBUG")
@@ -175,3 +177,7 @@ if SENTRY_DSN:
         traces_sample_rate=SENTRY_SAMPLE_RATE,
         send_default_pii=True,
     )
+
+# Django is moving from assuming the protocol of URLField is https.
+# This setting should be removed in Django 6.
+FORMS_URLFIELD_ASSUME_HTTPS = True

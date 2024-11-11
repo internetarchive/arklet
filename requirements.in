@@ -1,0 +1,4 @@
+Django==4.0.10
+django-environ
+sentry_sdk
+psycopg2-binary
