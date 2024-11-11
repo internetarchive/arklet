@@ -14,18 +14,20 @@ from django.http import (
 from django.views.decorators.csrf import csrf_exempt
 
 from ark.forms import MintArkForm, UpdateArkForm
-from ark.models import Ark, Naan
+from ark.models import APIKey, Ark, Naan
 from ark.utils import parse_ark
 
 logger = logging.getLogger(__name__)
 
 
 def authorize(request) -> Naan:
-    # TODO: get rid of UUID for key
-    # TODO: hash the keys and only show on creation
     bearer_token = request.headers.get("Authorization")
-    key = bearer_token.split()[-1]
-    authorized_naan = Naan.objects.get(key__key=key)
+    plain_key = bearer_token.split()[-1]
+    try:
+        authorized_naan = Naan.objects.get(key__key=plain_key)
+    except Naan.DoesNotExist:
+        api_key = APIKey.objects.get_by_plain_key(plain_key)
+        authorized_naan = api_key.naan
     return authorized_naan
 
 

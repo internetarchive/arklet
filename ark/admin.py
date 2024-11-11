@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from ark.models import Ark, Key, Naan, Shoulder, User
+from ark.models import APIKey, Ark, Key, Naan, Shoulder, User
 
 
 @admin.register(User)
@@ -34,6 +34,13 @@ class ArkAdmin(admin.ModelAdmin):
 
     list_display = ["ark", "url"]
     show_full_result_count = False
+
+
+@admin.register(APIKey)
+class APIKeyAdmin(admin.ModelAdmin):
+    """Django Admin model for API Keys."""
+
+    list_display = ["naan", "key_prefix", "name"]
 
 
 @admin.register(Key)

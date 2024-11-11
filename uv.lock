@@ -27,7 +27,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "django", specifier = "==4.0.10" },
+    { name = "django", specifier = ">=4.0.10" },
     { name = "django-environ" },
     { name = "psycopg2-binary", marker = "extra == 'postgres'" },
     { name = "sentry-sdk", marker = "extra == 'sentry'" },
