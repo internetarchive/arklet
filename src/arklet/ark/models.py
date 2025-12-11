@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError, models
 from django.db.models import Q, UniqueConstraint
 
-from ark.utils import generate_noid, noid_check_digit
+from arklet.ark.utils import generate_noid, noid_check_digit
 
 
 class Naan(models.Model):

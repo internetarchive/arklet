@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from ark.models import APIKey, Naan
+from arklet.ark.models import APIKey, Naan
 
 
 class Command(BaseCommand):

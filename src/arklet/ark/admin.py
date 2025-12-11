@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from ark.models import APIKey, Ark, Key, Naan, Shoulder, User
+from arklet.ark.models import APIKey, Ark, Key, Naan, Shoulder, User
 
 
 @admin.register(User)
