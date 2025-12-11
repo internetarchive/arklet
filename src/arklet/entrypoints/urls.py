@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from ark import views
+from arklet.ark import views
 
 urlpatterns = [
     path("mint", views.mint_ark, name="mint_ark"),

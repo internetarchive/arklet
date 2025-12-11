@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
-from ark.models import Ark, Key, Naan, Shoulder
-from ark.utils import parse_ark
+from arklet.ark.models import Ark, Key, Naan, Shoulder
+from arklet.ark.utils import parse_ark
 
 
 @dataclass
@@ -152,7 +152,7 @@ class TestMintArk:
         assert res.status_code == 403
 
     @pytest.mark.django_db(transaction=True)
-    @patch("ark.models.generate_noid")
+    @patch("arklet.ark.models.generate_noid")
     def test_fails_after_too_many_collisions(
         self, mock_noid_gen, caplog, client, mint_ark_args, ark
     ) -> None:
@@ -179,7 +179,7 @@ class TestMintArk:
         assert res.status_code == 500
 
     @pytest.mark.django_db(transaction=True)
-    @patch("ark.models.generate_noid")
+    @patch("arklet.ark.models.generate_noid")
     def test_succeeds_on_single_collision(
         self, mock_noid_gen, caplog, client, mint_ark_args, ark
     ) -> None:

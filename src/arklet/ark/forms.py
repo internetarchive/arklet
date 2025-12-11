@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from ark.utils import parse_ark
+from arklet.ark.utils import parse_ark
 
 
 def validate_shoulder(shoulder: str):

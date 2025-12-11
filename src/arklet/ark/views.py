@@ -13,9 +13,9 @@ from django.http import (
 )
 from django.views.decorators.csrf import csrf_exempt
 
-from ark.forms import MintArkForm, UpdateArkForm
-from ark.models import APIKey, Ark, Naan
-from ark.utils import parse_ark
+from arklet.ark.forms import MintArkForm, UpdateArkForm
+from arklet.ark.models import APIKey, Ark, Naan
+from arklet.ark.utils import parse_ark
 
 logger = logging.getLogger(__name__)
 

@@ -6,8 +6,8 @@ ARKs, it doesn't bind URLs to them.
 
 from django.core.management.base import BaseCommand
 
-from ark.models import Ark, Naan
-from ark.utils import generate_noid
+from arklet.ark.models import Ark, Naan
+from arklet.ark.utils import generate_noid
 
 
 class Command(BaseCommand):
