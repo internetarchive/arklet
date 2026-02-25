@@ -157,6 +157,9 @@ class Ark(models.Model):
         ]
 
     def clean(self):
+        if not self.ark:
+            # New instance — ark string hasn't been generated yet; nothing to check.
+            return
         expected_ark = f"{self.naan.naan}{self.shoulder}{self.assigned_name}"
         if self.ark != expected_ark:
             raise ValidationError(f"expected {expected_ark} got {self.ark}")

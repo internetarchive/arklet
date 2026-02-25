@@ -1,6 +1,6 @@
 [project]
 name = "arklet"
-version = "0.2.0"
+version = "0.2.1"
 description = "An unassuming ARK minter, binder, and resolver"
 readme = "README.md"
 authors = [
