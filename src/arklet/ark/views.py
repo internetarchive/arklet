@@ -24,7 +24,7 @@ def authorize(request) -> Naan:
     bearer_token = request.headers.get("Authorization")
     plain_key = bearer_token.split()[-1]
     try:
-        authorized_naan = Naan.objects.get(key__key=plain_key)
+        authorized_naan = Naan.objects.get(key__key=plain_key, key__active=True)
     except Naan.DoesNotExist:
         api_key = APIKey.objects.get_by_plain_key(plain_key)
         authorized_naan = api_key.naan
