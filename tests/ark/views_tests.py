@@ -143,6 +143,16 @@ class TestMintArk:
         # Then we get a 403 Forbidden
         assert res.status_code == 403
 
+    @pytest.mark.django_db
+    def test_inactive_key_is_forbidden(self, client, mint_ark_args, naan) -> None:
+        """mint_ark rejects a Key whose active flag has been turned off."""
+        # When the bearer token belongs to a Key with active=False
+        inactive_key = Key.objects.create(naan=naan, active=False)
+        mint_ark_args.HTTP_AUTHORIZATION = f"Bearer {inactive_key.key}"
+        res = client.post(**asdict(mint_ark_args))
+        # Then we get a 403 Forbidden — deactivation in the admin must revoke the key
+        assert res.status_code == 403
+
     def test_authorized_naan_matches_post_naan(self, client, mint_ark_args) -> None:
         """mint_ark NAAN in auth header matches NAAN in POST body."""
         # When the POST body naan field doesn't match the auth header NAAN
